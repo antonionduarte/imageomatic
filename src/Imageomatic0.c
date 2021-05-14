@@ -1,20 +1,18 @@
 /*
-    Linguagens e Ambientes de Programação - Projeto de 2020/2021
+	Linguagens e Ambientes de Programação - Projeto de 2020/2021
 
-    Imageomatic0 module body
+	Imageomatic0 module body
 
-max width = 100 columns
-tab = 4 spaces
-0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+	max width = 100 columns
+	tab = 4 spaces
+	0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
 
-Código oferecido.
+	Código oferecido.
 
-Este ficheiro não pode ser alterado!
+	Este ficheiro não pode ser alterado!
 */
 
-
 #include "Imageomatic.h"
-
 
 /*** TYPE Int2 ***/
 
@@ -84,7 +82,6 @@ double int2Distance(Int2 a, Int2 b)
 	return sqrt(x_dist * x_dist + y_dist * y_dist);
 }
 
-
 /*** TYPE Pixel ***/
 
 Pixel white = {255, 255, 255};
@@ -132,8 +129,6 @@ int pixelGrayAverage(Pixel p)
 	return (p.red + p.green + p.blue)/3;
 }
 
-
-
 /*** TYPE Image ***/
 
 Int2 imageLoad(String ficheiro, Image res)
@@ -147,9 +142,9 @@ Int2 imageLoad(String ficheiro, Image res)
 		return int2Error;
 	Int2 i;
 	for(i.y = 0; i.y < n.y; i.y++)
-	for(i.x = 0; i.x < n.x; i.x++) {
-		res[i.x][i.y] = *p++;
-	}
+		for(i.x = 0; i.x < n.x; i.x++) {
+			res[i.x][i.y] = *p++;
+		}
 	free(mem);
 	return n;
 }
@@ -160,9 +155,9 @@ bool imageStore(String ficheiro, Image img, Int2 n)
 	Pixel *p = (Pixel *)mem;
 	Int2 i;
 	for(i.y = 0; i.y < n.y; i.y++)
-	for(i.x = 0; i.x < n.x; i.x++) {
-		*p++ = img[i.x][i.y];
-	}
+		for(i.x = 0; i.x < n.x; i.x++) {
+			*p++ = img[i.x][i.y];
+		}
 	if( lodepng_encode24_file(ficheiro, mem, n.x, n.y) != 0 )	
 		return false;
 	free(mem);
@@ -249,7 +244,6 @@ int stringToInt(String s)
 	}
 	return n;
 }
-
 
 /* INTERPRETER */
 
