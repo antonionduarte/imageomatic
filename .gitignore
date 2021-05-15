@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
 
+# Image Folder
+/src/img/*
+
 # Object files
 *.o
 *.ko
