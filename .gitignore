@@ -3,6 +3,7 @@
 
 # Image Folder
 /src/img/*
+/src/Imageomatic
 
 # Object files
 *.o
