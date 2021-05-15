@@ -126,7 +126,7 @@ bool pixelEquals(Pixel a, Pixel b)
 
 int pixelGrayAverage(Pixel p)
 {
-	return (p.red + p.green + p.blue)/3;
+	return (p.red + p.green + p.blue) / 3;
 }
 
 /*** TYPE Image ***/

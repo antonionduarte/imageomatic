@@ -28,7 +28,6 @@
 
 /* More Pixel functions, in case you need them */
 
-
 /*** TYPE Image ***/
 
 void initialization(void) {
@@ -40,9 +39,9 @@ void initialization(void) {
 Int2 imageCopy(Image img, Int2 n, Image res) {
 	Int2 i;
 
-	for(i.y = 0; i.y < n.y; i.y++)
+	for (i.y = 0; i.y < n.y; i.y++)
 
-		for(i.x = 0; i.x < n.x; i.x++) {
+		for (i.x = 0; i.x < n.x; i.x++) {
 			res[i.x][i.y] = img[i.x][i.y];
 		}
 
@@ -66,7 +65,17 @@ Int2 imageMask(Image img1, Int2 n1, Image img2, Int2 n2, Image res) { // pre: in
 }
 
 Int2 imageGrayscale(Image img, Int2 n, Image res) {
-	return int2Error;
+	Int2 i;
+
+	for (i.y = 0; i.y < n.y; i.y++) {
+		for (i.x = 0; i.x < n.x; i.x++) {
+			Pixel pixel = img[i.x][i.y];
+			Pixel result = pixelGray(pixelGrayAverage(pixel));
+			res[i.x][i.y] = result;
+		}
+	}
+
+	return n;
 }
 
 Int2 imageBlur(Image img, Int2 n, int nivel, Image res) {
