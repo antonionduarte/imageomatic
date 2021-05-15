@@ -101,7 +101,16 @@ Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {
 }
 
 Int2 imageHalf(Image img, Int2 n, Image res) {
-	return int2Error;
+	Int2 i;
+
+	for (i.y = 0; i.y < n.y; i.y += 2) {
+		for (i.x = 0; i.x < n.x; i.x += 2) {
+			res[i.x / 2][i.y / 2] = img[i.x][i.y];
+		}
+	}
+
+	Int2 f = {i.x / 2, i.y / 2};
+	return f;
 }
 
 Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
