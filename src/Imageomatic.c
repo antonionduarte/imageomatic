@@ -53,7 +53,17 @@ Int2 imagePaint(String cor, Int2 n, Image res) {
 }
 
 Int2 imageNegative(Image img, Int2 n, Image res) {
-	return int2Error;
+	Int2 i;
+
+	for (i.y = 0; i.y < n.y; i.y++) {
+		for (i.x = 0; i.x < n.x; i.x++) {
+			Pixel pixel = img[i.x][i.y];
+			Pixel result = {MAX_COLOR - pixel.red, MAX_COLOR - pixel.green, MAX_COLOR - pixel.blue};
+			res[i.x][i.y] = result;
+		}
+	}
+
+	return n;
 }
 
 Int2 imageDroplet(Int2 n, Image res) {
