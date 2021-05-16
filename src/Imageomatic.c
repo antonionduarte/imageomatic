@@ -19,6 +19,7 @@
 */
 
 #include "Imageomatic.h"
+#include <stdio.h>
 
 /*** Type Int2 ***/
 
@@ -98,8 +99,8 @@ Int2 imageRotation90(Image img, Int2 n, Image res) {
 
 	for (i.y = 0; i.y < n.y; i.y++) {
 		for (i.x = 0; i.x < n.x; i.x++) {
-			Pixel pixel = img[i.y][i.x];
-			res[i.x][max_y] = pixel;
+			Pixel pixel = img[i.x][i.y];
+			res[max_y][i.x] = pixel;
 		}
 		max_y -= 1;
 	}
