@@ -103,7 +103,6 @@ Int2 imageRotation90(Image img, Int2 n, Image res) {
 		}
 		max_y -= 1;
 	}
-	
 
 	Int2 size = {n.y, n.x};
 	return size;
