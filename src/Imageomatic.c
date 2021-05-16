@@ -93,7 +93,20 @@ Int2 imageBlur(Image img, Int2 n, int nivel, Image res) {
 }
 
 Int2 imageRotation90(Image img, Int2 n, Image res) {
-	return int2Error;
+	Int2 i;
+	int max_y = n.y - 1;
+
+	for (i.y = 0; i.y < n.y; i.y++) {
+		for (i.x = 0; i.x < n.x; i.x++) {
+			Pixel pixel = img[i.y][i.x];
+			res[i.x][max_y] = pixel;
+		}
+		max_y -= 1;
+	}
+	
+
+	Int2 size = {n.y, n.x};
+	return size;
 }
 
 Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {
@@ -109,8 +122,8 @@ Int2 imageHalf(Image img, Int2 n, Image res) {
 		}
 	}
 
-	Int2 f = {i.x / 2, i.y / 2};
-	return f;
+	Int2 size = {i.x / 2, i.y / 2};
+	return size;
 }
 
 Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
