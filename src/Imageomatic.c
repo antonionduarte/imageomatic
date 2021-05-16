@@ -21,13 +21,7 @@
 
 /*** Type Pixel ***/
 
-Byte negative(Byte a) {
-    return MAX_COLOR - a;
-}
-
-Pixel pixelNegative(Pixel p) {
-    return pixel(negative(p.red), negative(p.green), negative(p.blue));
-}
+/* More Pixel functions, in case you need them */
 
 /*** TYPE Image ***/
 
@@ -40,11 +34,11 @@ void initialization(void) {
 Int2 imageCopy(Image img, Int2 n, Image res) {
 	Int2 i;
 
-	for (i.y = 0; i.y < n.y; i.y++) {
-        for (i.x = 0; i.x < n.x; i.x++) {
-            res[i.y][i.x] = img[i.y][i.x];
-        }
-    }
+	for (i.y = 0; i.y < n.y; i.y++)
+
+		for (i.x = 0; i.x < n.x; i.x++) {
+			res[i.x][i.y] = img[i.x][i.y];
+		}
 
 	return n;
 }
@@ -58,7 +52,9 @@ Int2 imageNegative(Image img, Int2 n, Image res) {
 
 	for (i.y = 0; i.y < n.y; i.y++) {
 		for (i.x = 0; i.x < n.x; i.x++) {
-			res[i.y][i.x] = pixelNegative(img[i.y][i.x]);;
+			Pixel pixel = img[i.x][i.y];
+			Pixel result = {MAX_COLOR - pixel.red, MAX_COLOR - pixel.green, MAX_COLOR - pixel.blue};
+			res[i.x][i.y] = result;
 		}
 	}
 
@@ -78,7 +74,9 @@ Int2 imageGrayscale(Image img, Int2 n, Image res) {
 
 	for (i.y = 0; i.y < n.y; i.y++) {
 		for (i.x = 0; i.x < n.x; i.x++) {
-			res[i.y][i.x] = pixelGray(pixelGrayAverage(img[i.y][i.x]));
+			Pixel pixel = img[i.x][i.y];
+			Pixel result = pixelGray(pixelGrayAverage(pixel));
+			res[i.x][i.y] = result;
 		}
 	}
 
@@ -90,20 +88,19 @@ Int2 imageBlur(Image img, Int2 n, int nivel, Image res) {
 }
 
 Int2 imageRotation90(Image img, Int2 n, Image res) {
-    Int2 i;
-    int max_y = n.y - 1;
+	Int2 i;
+	int max_y = n.y - 1;
 
-    for (i.y = 0; i.y < n.y; i.y++) {
-        for (i.x = 0; i.x < n.x; i.x++) {
-            Pixel pixel = img[i.y][i.x];
-            res[i.x][max_y] = pixel;
-        }
-        max_y -= 1;
-    }
+	for (i.y = 0; i.y < n.y; i.y++) {
+		for (i.x = 0; i.x < n.x; i.x++) {
+			Pixel pixel = img[i.y][i.x];
+			res[i.x][max_y] = pixel;
+		}
+		max_y -= 1;
+	}
 
-
-    Int2 size = {n.y, n.x};
-    return size;
+	Int2 size = {n.y, n.x};
+	return size;
 }
 
 Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {
@@ -115,11 +112,12 @@ Int2 imageHalf(Image img, Int2 n, Image res) {
 
 	for (i.y = 0; i.y < n.y; i.y += 2) {
 		for (i.x = 0; i.x < n.x; i.x += 2) {
-			res[i.y/2][i.x/2] = img[i.y][i.x];
+			res[i.x / 2][i.y / 2] = img[i.x][i.y];
 		}
 	}
 
-	return int2(n.x/2, n.y/2);
+	Int2 size = {i.x / 2, i.y / 2};
+	return size;
 }
 
 Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
