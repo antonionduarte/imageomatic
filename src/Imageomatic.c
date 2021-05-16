@@ -7,13 +7,8 @@
 	tab = 4 espaços
 	0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
 
-	Este ficheiro constitui apenas um ponto de partida para o
-	seu trabalho. Todo este ficheiro pode e deve ser alterado
-	à vontade, a começar por este comentário.
-
-	IDENTIFICAÇÃO DOS AUTORES -
-	Aluno 1: numero, nome
-	Aluno 2: numero, nome
+	Aluno 1: 56773, Goncalo Virginia
+	Aluno 2: 58278, Antonio Duarte
 
 	Comentarios:
 */
