@@ -7,13 +7,8 @@
 	tab = 4 espaços
 	0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
 
-	Este ficheiro constitui apenas um ponto de partida para o
-	seu trabalho. Todo este ficheiro pode e deve ser alterado
-	à vontade, a começar por este comentário.
-
-	IDENTIFICAÇÃO DOS AUTORES -
-	Aluno 1: numero, nome
-	Aluno 2: numero, nome
+	Aluno 1: 56773, Goncalo Virginia
+	Aluno 2: 58278, Antonio Duarte
 
 	Comentarios:
 */
@@ -27,7 +22,13 @@
 
 /*** Type Pixel ***/
 
-/* More Pixel functions, in case you need them */
+Byte negative(Byte a) {
+    return MAX_COLOR - a;
+}
+
+Pixel pixelNegative(Pixel p) {
+    return pixel(negative(p.red), negative(p.green), negative(p.blue));
+}
 
 /*** TYPE Image ***/
 
@@ -40,11 +41,11 @@ void initialization(void) {
 Int2 imageCopy(Image img, Int2 n, Image res) {
 	Int2 i;
 
-	for (i.y = 0; i.y < n.y; i.y++)
-
-		for (i.x = 0; i.x < n.x; i.x++) {
-			res[i.x][i.y] = img[i.x][i.y];
-		}
+	for (i.y = 0; i.y < n.y; i.y++) {
+        for (i.x = 0; i.x < n.x; i.x++) {
+            res[i.y][i.x] = img[i.y][i.x];
+        }
+    }
 
 	return n;
 }
@@ -58,9 +59,7 @@ Int2 imageNegative(Image img, Int2 n, Image res) {
 
 	for (i.y = 0; i.y < n.y; i.y++) {
 		for (i.x = 0; i.x < n.x; i.x++) {
-			Pixel pixel = img[i.x][i.y];
-			Pixel result = {MAX_COLOR - pixel.red, MAX_COLOR - pixel.green, MAX_COLOR - pixel.blue};
-			res[i.x][i.y] = result;
+			res[i.y][i.x] = pixelNegative(img[i.y][i.x]);;
 		}
 	}
 
@@ -71,7 +70,7 @@ Int2 imageDroplet(Int2 n, Image res) {
 	return int2Error;
 }
 
-Int2 imageMask(Image img1, Int2 n1, Image img2, Int2 n2, Image res) { // pre: int2Equals(n1, n2) 
+Int2 imageMask(Image img1, Int2 n1, Image img2, Int2 n2, Image res) { // pre: int2Equals(n1, n2)
 	return int2Error;
 }
 
@@ -80,9 +79,7 @@ Int2 imageGrayscale(Image img, Int2 n, Image res) {
 
 	for (i.y = 0; i.y < n.y; i.y++) {
 		for (i.x = 0; i.x < n.x; i.x++) {
-			Pixel pixel = img[i.x][i.y];
-			Pixel result = pixelGray(pixelGrayAverage(pixel));
-			res[i.x][i.y] = result;
+			res[i.y][i.x] = pixelGray(pixelGrayAverage(img[i.y][i.x]));
 		}
 	}
 
@@ -94,8 +91,16 @@ Int2 imageBlur(Image img, Int2 n, int nivel, Image res) {
 }
 
 Int2 imageRotation90(Image img, Int2 n, Image res) {
-	Int2 i;
-	int max_y = n.y - 1;
+    Int2 i;
+    int max_y = n.y - 1;
+
+    for (i.y = 0; i.y < n.y; i.y++) {
+        for (i.x = 0; i.x < n.x; i.x++) {
+            Pixel pixel = img[i.y][i.x];
+            res[i.x][max_y] = pixel;
+        }
+        max_y -= 1;
+    }
 
 	for (i.y = 0; i.y < n.y; i.y++) {
 		for (i.x = 0; i.x < n.x; i.x++) {
@@ -105,8 +110,8 @@ Int2 imageRotation90(Image img, Int2 n, Image res) {
 		max_y -= 1;
 	}
 
-	Int2 size = {n.y, n.x};
-	return size;
+    Int2 size = {n.y, n.x};
+    return size;
 }
 
 Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {
@@ -118,12 +123,11 @@ Int2 imageHalf(Image img, Int2 n, Image res) {
 
 	for (i.y = 0; i.y < n.y; i.y += 2) {
 		for (i.x = 0; i.x < n.x; i.x += 2) {
-			res[i.x / 2][i.y / 2] = img[i.x][i.y];
+			res[i.y/2][i.x/2] = img[i.y][i.x];
 		}
 	}
 
-	Int2 size = {i.x / 2, i.y / 2};
-	return size;
+	return int2(n.x/2, n.y/2);
 }
 
 Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
