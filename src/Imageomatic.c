@@ -209,25 +209,21 @@ Int2 imageRotation90(Image img, Int2 n, Image res) {
   return int2(n.y, n.x);
 }
 
-Byte nearestValue(int value, int interval) {
-    for (int i = 0; i < MAX_COLOR; i += interval) {
-        if (value >= i && value < i + interval) {
-            return i;
-        }
-    }
+Byte nearestColor(int value, int interval) {
+    return value - (value % interval);
 }
 
 Pixel posterizePixel(Pixel p, int interval) {
-    return pixel(nearestValue(p.red, interval), 
-            nearestValue(p.green, interval), nearestValue(p.blue, interval));
+    return pixel(nearestColor(p.red, interval), 
+            nearestColor(p.green, interval), nearestColor(p.blue, interval));
 }
 
 Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {
     Int2 i;
-    int interval = MAX_COLOR >> factor;
+    int interval = (MAX_COLOR + 1) >> factor;
 
-    for (i.y = 0; i.y < n.y; i.y += 2) {
-        for (i.x = 0; i.x < n.x; i.x += 2) {
+    for (i.y = 0; i.y < n.y; i.y += 1) {
+        for (i.x = 0; i.x < n.x; i.x += 1) {
             res[i.y][i.x] = posterizePixel(img[i.y][i.x], interval);
         }
     }
