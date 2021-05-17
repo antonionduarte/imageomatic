@@ -14,6 +14,7 @@
 */
 
 #include "Imageomatic.h"
+#include <stdio.h>
 
 /*** Type Int2 ***/
 
@@ -140,20 +141,19 @@ Int2 imageBlur(Image img, Int2 n, int nivel, Image res) {
 }
 
 Int2 imageRotation90(Image img, Int2 n, Image res) {
-    Int2 i;
-    int max_y = n.y - 1;
+  Int2 i;
+  int max_y = n.y - 1;
 
-    for (i.y = 0; i.y < n.y; i.y++) {
-        for (i.x = 0; i.x < n.x; i.x++) {
-            Pixel pixel = img[i.y][i.x];
-            res[i.x][max_y] = pixel;
-        }
-        max_y -= 1;
-    }
+	for (i.y = 0; i.y < n.y; i.y++) {
+		for (i.x = 0; i.x < n.x; i.x++) {
+			Pixel pixel = img[i.x][i.y];
+			res[max_y][i.x] = pixel;
+		}
+		max_y -= 1;
+	}
 
-
-    Int2 size = {n.y, n.x};
-    return size;
+  Int2 size = {n.y, n.x};
+  return size;
 }
 
 Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {
