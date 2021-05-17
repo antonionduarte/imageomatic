@@ -218,7 +218,8 @@ Byte nearestValue(int value, int interval) {
 }
 
 Pixel posterizePixel(Pixel p, int interval) {
-    return pixel(nearestValue(p.red, interval), nearestValue(p.green, interval), nearestValue(p.blue, interval));
+    return pixel(nearestValue(p.red, interval), 
+            nearestValue(p.green, interval), nearestValue(p.blue, interval));
 }
 
 Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {

@@ -1,18 +1,20 @@
 /*
-	Linguagens e Ambientes de Programação - Projeto de 2020/2021
+    Linguagens e Ambientes de Programação - Projeto de 2020/2021
 
-	Imageomatic0 module body
+    Imageomatic0 module body
 
-	max width = 100 columns
-	tab = 4 spaces
-	0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+max width = 100 columns
+tab = 4 spaces
+0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
 
-	Código oferecido.
+Código oferecido.
 
-	Este ficheiro não pode ser alterado!
+Este ficheiro não pode ser alterado!
 */
 
+
 #include "Imageomatic.h"
+
 
 /*** TYPE Int2 ***/
 
@@ -82,6 +84,7 @@ double int2Distance(Int2 a, Int2 b)
 	return sqrt(x_dist * x_dist + y_dist * y_dist);
 }
 
+
 /*** TYPE Pixel ***/
 
 Pixel white = {255, 255, 255};
@@ -126,39 +129,41 @@ bool pixelEquals(Pixel a, Pixel b)
 
 int pixelGrayAverage(Pixel p)
 {
-	return (p.red + p.green + p.blue) / 3;
+	return (p.red + p.green + p.blue)/3;
 }
+
+
 
 /*** TYPE Image ***/
 
-Int2 imageLoad(String ficheiro, Image res)
+Int2 imageLoad(String filename, Image res)
 {
 	Byte *mem;
 	unsigned int w, h;
-	int error = lodepng_decode24_file(&mem, &w, &h, ficheiro);
+	int error = lodepng_decode24_file(&mem, &w, &h, filename);
 	Int2 n = int2(w, h);
 	Pixel *p = (Pixel *)mem;
 	if( error != 0 )
 		return int2Error;
 	Int2 i;
 	for(i.y = 0; i.y < n.y; i.y++)
-		for(i.x = 0; i.x < n.x; i.x++) {
-			res[i.x][i.y] = *p++;
-		}
+	for(i.x = 0; i.x < n.x; i.x++) {
+		res[i.x][i.y] = *p++;
+	}
 	free(mem);
 	return n;
 }
 
-bool imageStore(String ficheiro, Image img, Int2 n)
+bool imageStore(String filename, Image img, Int2 n)
 {
 	Byte *mem = malloc(MAX_X * MAX_Y * sizeof(Pixel));
 	Pixel *p = (Pixel *)mem;
 	Int2 i;
 	for(i.y = 0; i.y < n.y; i.y++)
-		for(i.x = 0; i.x < n.x; i.x++) {
-			*p++ = img[i.x][i.y];
-		}
-	if( lodepng_encode24_file(ficheiro, mem, n.x, n.y) != 0 )	
+	for(i.x = 0; i.x < n.x; i.x++) {
+		*p++ = img[i.x][i.y];
+	}
+	if( lodepng_encode24_file(filename, mem, n.x, n.y) != 0 )	
 		return false;
 	free(mem);
 	return true;
@@ -245,6 +250,7 @@ int stringToInt(String s)
 	return n;
 }
 
+
 /* INTERPRETER */
 
 #define INT_INFINITE	9999999
@@ -300,12 +306,12 @@ static bool validateInt(String s, int max) {
 		return error("Esperava-se um inteiro valido");
 }
 
-static void executar_comando(String parts[], int nParts)
+static void executarComando(String parts[], int nParts)
 {
-	String s;
+	char s[4 * MAX_STRING];
 	stringToUpperCase(parts[0]);
 	char c0 = parts[0][0];
-	char c1 = parts[0][1];
+	//char c1 = parts[0][1];
 	switch( c0 ) {
 		case '+':
 			if( validateCommand(parts, nParts, "+", 2)
@@ -426,7 +432,7 @@ static void executar_comando(String parts[], int nParts)
 			}
 			break;
 		case 'F':
-			if(validateCommand(parts, nParts, "F", 3)
+			if(validateCommand(parts, nParts, "F", 4)
 			&& validateIntX(parts[1])
 			&& validateIntY(parts[2])
 			&& validateInt(parts[3], INT_INFINITE) ) {
@@ -510,7 +516,7 @@ static void interpreter(void)
 			printf("%s\n", parts[i]);
 #endif
 		if( nParts > 0 )
-			executar_comando(parts, nParts);
+			executarComando(parts, nParts);
 	}
 }
 
