@@ -1,16 +1,11 @@
 /*
-	Linguagens e Ambientes de Programação - Projeto de 2020/2021
+	Programming Languages and Environments - Second Assignment 2020/2021
 
-	Imageomatic module body
+	Imageomatic Module Body
 
-	largura maxima = 100 colunas
-	tab = 4 espaços
-	0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
-
-	Aluno 1: 56773, Goncalo Virginia
-	Aluno 2: 58278, Antonio Duarte
-
-	Comentarios:
+	Students:
+	Goncalo Virginia - 56773
+	Antonio Duarte - 58278
 */
 
 #include "Imageomatic.h"
@@ -33,10 +28,10 @@ Pixel pixelNegative(Pixel p) {
 
 int hexToInt(char c) {
     if (c >= '0' && c <= '9') {
-        return ch - '0';
+        return c - '0';
     }
     if (c >= 'A' && c <= 'F') {
-        return ch - 'A' + 10;
+        return c - 'A' + 10;
     }
     if (c >= 'a' && c <= 'f') {
         return c - 'a' + 10;
@@ -54,14 +49,15 @@ Pixel hexStringToPixel(String hex) {
             return black;
         }
 
-        rgb[i] = (firstDigit << 4) + secondDigit;
+        rgb[i] = (firstHexDigit << 4) + secondHexDigit;
     }
 
-    return pixel(rgb[0], rgb[1], rbg[2]);
+    return pixel(rgb[0], rgb[1], rgb[2]);
 }
 
 Pixel searchColorsFile(String color) {
-    String line, hex, name;
+	FILE *colorsFile = fopen(colorsFileName, "r");
+	String line, hex, name;
 
     while (fgets(line, MAX_STRING, colorsFile) != NULL) {
         sscanf(line, "%s %s", hex, name);
@@ -78,7 +74,7 @@ Pixel searchColorsFile(String color) {
 /*** TYPE Image ***/
 
 void initialization(void) {
-    FILE *colorsFile = fopen(colorsFileName, "r");
+    
 }
 
 Int2 imageCopy(Image img, Int2 n, Image res) {
@@ -127,7 +123,7 @@ Int2 imageDroplet(Int2 n, Image res) {
 
     for (i.y = 0; i.y < n.y; i.y++) {
         for (i.x = 0; i.x < n.x; i.x++) {
-            res[i.y][i.x] = grayLevel(int2Distance(int2Half(n)), i);
+            res[i.y][i.x] = grayLevel(int2Distance(int2Half(n), i));
         }
     }
 
@@ -146,8 +142,8 @@ Pixel maskPixel(Pixel p1, Pixel p2) {
 Int2 imageMask(Image img1, Int2 n1, Image img2, Int2 n2, Image res) {
     Int2 i;
 
-    for (i.y = 0; i.y < n.y; i.y++) {
-        for (i.x = 0; i.x < n.x; i.x++) {
+    for (i.y = 0; i.y < n1.y; i.y++) {
+        for (i.x = 0; i.x < n1.x; i.x++) {
             res[i.y][i.x] = maskPixel(img1[i.y][i.x], img2[i.y][i.x]);
         }
     }
@@ -169,7 +165,7 @@ Int2 imageGrayscale(Image img, Int2 n, Image res) {
 
 Pixel calculateAverage(Image img, Int2 p, Int2 n, int level) {
     Int2 i;
-    int rgb[3] = {0, 0, 0}, int numPixels = 0;
+    int rgb[3] = {0, 0, 0}, numPixels = 0;
 
     for (i.y = p.y - level; i.y <= p.y + level; i.y++) {
         for (i.x = p.x - level; i.x <= p.x + level; i.x++) {
@@ -213,8 +209,8 @@ Int2 imageRotation90(Image img, Int2 n, Image res) {
   return int2(n.y, n.x);
 }
 
-Byte nearestValue(int value, interval) {
-    for (int i = 0; i < MAX_COLOR; i+=interval) {
+Byte nearestValue(int value, int interval) {
+    for (int i = 0; i < MAX_COLOR; i += interval) {
         if (value >= i && value < i + interval) {
             return i;
         }
