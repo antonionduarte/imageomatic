@@ -97,7 +97,7 @@ Int2 imagePaint(String color, Int2 n, Image res) {
 
     for (i.y = 0; i.y < n.y; i.y++) {
         for (i.x = 0; i.x < n.x; i.x++) {
-            res[i.y][i.x] = color;
+            res[i.y][i.x] = monoColor;
         }
     }
 
