@@ -152,8 +152,7 @@ Int2 imageRotation90(Image img, Int2 n, Image res) {
 		max_y -= 1;
 	}
 
-  Int2 size = {n.y, n.x};
-  return size;
+  return int2(n.y, n.x);
 }
 
 Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {
