@@ -263,6 +263,13 @@ void drawAxis(Int2 n, Image res) {
 Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
 	drawAxis(n, res);
 
+	Int2 i;
+	int yLevel = n.y/2;
+
+	for (i.x = 0; i.x < n.x; i.x++) {
+		res[yLevel + (int)(fun(i.x) * scale)][i.x] = black;
+	}
+
 	return n;
 }
 
