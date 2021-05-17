@@ -94,6 +94,7 @@ Int2 imageCopy(Image img, Int2 n, Image res) {
 
 Int2 imagePaint(String color, Int2 n, Image res) {
     Pixel monoColor = searchColorsFile(color);
+    Int2 i;
 
     for (i.y = 0; i.y < n.y; i.y++) {
         for (i.x = 0; i.x < n.x; i.x++) {
@@ -155,8 +156,29 @@ Int2 imageRotation90(Image img, Int2 n, Image res) {
   return int2(n.y, n.x);
 }
 
+Byte nearestValue(int value, interval) {
+    for (int i = 0; i < MAX_COLOR; i+=interval) {
+        if (value >= i && value < i + interval) {
+            return i;
+        }
+    }
+}
+
+Pixel posterizePixel(Pixel p, int interval) {
+    return pixel(nearestValue(p.red, interval), nearestValue(p.green, interval), nearestValue(p.blue, interval));
+}
+
 Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {
-	return int2Error;
+    Int2 i;
+    int interval = MAX_COLOR >> factor;
+
+    for (i.y = 0; i.y < n.y; i.y += 2) {
+        for (i.x = 0; i.x < n.x; i.x += 2) {
+            res[i.y][i.x] = posterizePixel(img[i.y][i.x], interval);
+        }
+    }
+
+    return n;
 }
 
 Int2 imageHalf(Image img, Int2 n, Image res) {
