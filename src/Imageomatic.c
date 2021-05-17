@@ -246,8 +246,24 @@ Int2 imageHalf(Image img, Int2 n, Image res) {
 	return int2(n.x/2, n.y/2);
 }
 
+void drawAxis(Int2 n, Image res) {
+	imagePaint("white", n, res);
+
+	Int2 i, m = int2Half(n);
+
+	for (i.y = 0; i.y < n.y; i.y++) {
+		res[i.y][m.x] = black;
+	}
+
+	for (i.x = 0; i.x < n.x; i.x++) {
+		res[m.y][i.x] = black;
+	}
+}
+
 Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
-	return int2Error;
+	drawAxis(n, res);
+
+	return n;
 }
 
 Int2 imageOrderedDithering(Image img, Int2 n, Image res) {
@@ -268,7 +284,11 @@ Int2 imageOrderedDithering(Image img, Int2 n, Image res) {
 }
 
 Int2 imageSteganography(Image img, Int2 n, String s, Image res) {
-	return int2Error;
+
+
+
+
+	return n;
 }
 
 void imageTests(void) {
