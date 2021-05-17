@@ -29,12 +29,54 @@ Pixel pixelNegative(Pixel p) {
     return pixel(negative(p.red), negative(p.green), negative(p.blue));
 }
 
+int hexToInt(char c) {
+    if (c >= '0' && c <= '9') {
+        return ch - '0';
+    }
+    if (c >= 'A' && c <= 'F') {
+        return ch - 'A' + 10;
+    }
+    if (c >= 'a' && c <= 'f') {
+        return c - 'a' + 10;
+    }
+    return -1;
+}
+
+Pixel hexStringToPixel(String hex) {
+    Byte rgb[3];
+
+    for (int i = 0; i < 3; i++) {
+        int firstHexDigit = hexToInt(hex[i*2]), secondHexDigit = hexToInt(hex[(i*2)+1]);
+
+        if (firstHexDigit == -1 || secondHexDigit == -1) {
+            return black;
+        }
+
+        rgb[i] = (firstDigit << 4) + secondDigit;
+    }
+
+    return pixel(rgb[0], rgb[1], rbg[2]);
+}
+
+Pixel searchColorsFile(String color) {
+    String line, hex, name;
+
+    while (fgets(line, MAX_STRING, colorsFile) != NULL) {
+        sscanf(line, "%s %s", hex, name);
+
+        if (strcmp(color, name) == 0) {
+            return hexStringToPixel(hex);
+        }
+    }
+
+    // If the color name isn't found in the colors file, it is then attempted to read as a hex value.
+    return hexStringToPixel(color);
+}
+
 /*** TYPE Image ***/
 
 void initialization(void) {
-	// This function is automatically called when the interpreter starts.
-	// If you need to perform some initialization, this is the place
-	// to write the initialization code.
+    FILE *colorsFile = fopen(colorsFileName, "r");
 }
 
 Int2 imageCopy(Image img, Int2 n, Image res) {
@@ -49,8 +91,16 @@ Int2 imageCopy(Image img, Int2 n, Image res) {
 	return n;
 }
 
-Int2 imagePaint(String cor, Int2 n, Image res) {
-	return int2Error;
+Int2 imagePaint(String color, Int2 n, Image res) {
+    Pixel monoColor = searchColorsFile(color);
+
+    for (i.y = 0; i.y < n.y; i.y++) {
+        for (i.x = 0; i.x < n.x; i.x++) {
+            res[i.y][i.x] = color;
+        }
+    }
+
+    return n;
 }
 
 Int2 imageNegative(Image img, Int2 n, Image res) {
