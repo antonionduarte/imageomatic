@@ -150,8 +150,35 @@ Int2 imageGrayscale(Image img, Int2 n, Image res) {
 	return n;
 }
 
-Int2 imageBlur(Image img, Int2 n, int nivel, Image res) {
-	return int2Error;
+Pixel calculateAverage(Image img, Int2 p, Int2 n, int level) {
+    Int2 i;
+    int rgb[3] = {0, 0, 0}, int numPixels = 0;
+
+    for (i.y = p.y - level; i.y <= p.y + level; i.y++) {
+        for (i.x = p.x - level; i.x <= p.x + level; i.x++) {
+            if (i.y >= 0 && i.y < n.y && i.x >= 0 && i.x < n.x) {
+                Pixel px = img[i.y][i.x];
+                rgb[0] += px.red;
+                rgb[1] += px.green;
+                rgb[2] += px.blue;
+                numPixels++;
+            }
+        }
+    }
+
+    return pixel(rgb[0]/numPixels, rgb[1]/numPixels, rgb[2]/numPixels);
+}
+
+Int2 imageBlur(Image img, Int2 n, int level, Image res) {
+    Int2 i;
+
+    for (i.y = 0; i.y < n.y; i.y++) {
+        for (i.x = 0; i.x < n.x; i.x++) {
+            res[i.y][i.x] = calculateAverage(img, i, n, level);
+        }
+    }
+
+    return n;
 }
 
 Int2 imageRotation90(Image img, Int2 n, Image res) {
