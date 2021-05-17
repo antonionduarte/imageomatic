@@ -134,8 +134,25 @@ Int2 imageDroplet(Int2 n, Image res) {
     return n;
 }
 
-Int2 imageMask(Image img1, Int2 n1, Image img2, Int2 n2, Image res) { // pre: int2Equals(n1, n2)
-	return int2Error;
+Pixel maskPixel(Pixel p1, Pixel p2) {
+    Pixel px;
+    px.red = p1.red * (p2.red/(float)MAX_COLOR);
+    px.green = p1.green * (p2.green/(float)MAX_COLOR);
+    px.blue = p1.blue * (p2.blue/(float)MAX_COLOR);
+    return px;
+}
+
+// pre: int2Equals(n1, n2)
+Int2 imageMask(Image img1, Int2 n1, Image img2, Int2 n2, Image res) {
+    Int2 i;
+
+    for (i.y = 0; i.y < n.y; i.y++) {
+        for (i.x = 0; i.x < n.x; i.x++) {
+            res[i.y][i.x] = maskPixel(img1[i.y][i.x], img2[i.y][i.x]);
+        }
+    }
+
+    return n1;
 }
 
 Int2 imageGrayscale(Image img, Int2 n, Image res) {
