@@ -267,6 +267,8 @@ Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
 		res[i.x][yLevel + (int)(fun(i.x) * scale)] = black;
 	}
 
+	//random comment
+
 	return n;
 }
 
