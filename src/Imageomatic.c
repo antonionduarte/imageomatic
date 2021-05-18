@@ -170,7 +170,7 @@ Pixel calculateAverage(Image img, Int2 p, Int2 n, int level) {
     for (i.y = p.y - level; i.y <= p.y + level; i.y++) {
         for (i.x = p.x - level; i.x <= p.x + level; i.x++) {
             if (i.y >= 0 && i.y < n.y && i.x >= 0 && i.x < n.x) {
-                Pixel px = img[i.y][i.x];
+                Pixel px = img[i.x][i.y];
                 rgb[0] += px.red;
                 rgb[1] += px.green;
                 rgb[2] += px.blue;
@@ -187,7 +187,7 @@ Int2 imageBlur(Image img, Int2 n, int level, Image res) {
 
     for (i.y = 0; i.y < n.y; i.y++) {
         for (i.x = 0; i.x < n.x; i.x++) {
-            res[i.y][i.x] = calculateAverage(img, i, n, level);
+            res[i.x][i.y] = calculateAverage(img, i, n, level);
         }
     }
 
@@ -288,10 +288,6 @@ Int2 imageOrderedDithering(Image img, Int2 n, Image res) {
 }
 
 Int2 imageSteganography(Image img, Int2 n, String s, Image res) {
-
-
-
-
 	return n;
 }
 
