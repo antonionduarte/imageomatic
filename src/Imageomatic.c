@@ -260,11 +260,10 @@ void drawAxis(Int2 n, Image res) {
 Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
 	drawAxis(n, res);
 
-	Int2 i;
-	int yLevel = n.y/2;
+	Int2 i, center = int2Half(n);
 
 	for (i.x = 0; i.x < n.x; i.x++) {
-		res[i.x][yLevel + (int)(fun(i.x) * scale)] = black;
+		res[i.x][center.y + (int)(fun((center.x - i.x) / (double) scale) * scale)] = black;
 	}
 
 	return n;
