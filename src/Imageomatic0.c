@@ -146,9 +146,10 @@ Int2 imageLoad(String filename, Image res)
 	if( error != 0 )
 		return int2Error;
 	Int2 i;
-	for(i.y = 0; i.y < n.y; i.y++)
-	for(i.x = 0; i.x < n.x; i.x++) {
-		res[i.x][i.y] = *p++;
+	for(i.y = 0; i.y < n.y; i.y++) {
+		for(i.x = 0; i.x < n.x; i.x++) {
+			res[i.x][i.y] = *p++;
+		}
 	}
 	free(mem);
 	return n;
@@ -159,11 +160,12 @@ bool imageStore(String filename, Image img, Int2 n)
 	Byte *mem = malloc(MAX_X * MAX_Y * sizeof(Pixel));
 	Pixel *p = (Pixel *)mem;
 	Int2 i;
-	for(i.y = 0; i.y < n.y; i.y++)
-	for(i.x = 0; i.x < n.x; i.x++) {
-		*p++ = img[i.x][i.y];
+	for(i.y = 0; i.y < n.y; i.y++) {
+		for(i.x = 0; i.x < n.x; i.x++) {
+			*p++ = img[i.x][i.y];
+		}
 	}
-	if( lodepng_encode24_file(filename, mem, n.x, n.y) != 0 )	
+	if (lodepng_encode24_file(filename, mem, n.x, n.y) != 0)	
 		return false;
 	free(mem);
 	return true;

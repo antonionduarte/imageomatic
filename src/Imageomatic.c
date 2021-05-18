@@ -82,7 +82,7 @@ Int2 imageCopy(Image img, Int2 n, Image res) {
 
 	for (i.y = 0; i.y < n.y; i.y++) {
         for (i.x = 0; i.x < n.x; i.x++) {
-            res[i.y][i.x] = img[i.y][i.x];
+            res[i.x][i.y] = img[i.x][i.y];
         }
     }
 
@@ -107,7 +107,7 @@ Int2 imageNegative(Image img, Int2 n, Image res) {
 
 	for (i.y = 0; i.y < n.y; i.y++) {
 		for (i.x = 0; i.x < n.x; i.x++) {
-			res[i.y][i.x] = pixelNegative(img[i.y][i.x]);;
+			res[i.x][i.y] = pixelNegative(img[i.x][i.y]);;
 		}
 	}
 
@@ -123,7 +123,7 @@ Int2 imageDroplet(Int2 n, Image res) {
 
     for (i.y = 0; i.y < n.y; i.y++) {
         for (i.x = 0; i.x < n.x; i.x++) {
-            res[i.y][i.x] = grayLevel(int2Distance(int2Half(n), i));
+            res[i.x][i.y] = grayLevel(int2Distance(int2Half(n), i));
         }
     }
 
@@ -144,7 +144,7 @@ Int2 imageMask(Image img1, Int2 n1, Image img2, Int2 n2, Image res) {
 
     for (i.y = 0; i.y < n1.y; i.y++) {
         for (i.x = 0; i.x < n1.x; i.x++) {
-            res[i.y][i.x] = maskPixel(img1[i.y][i.x], img2[i.y][i.x]);
+            res[i.x][i.y] = maskPixel(img1[i.x][i.y], img2[i.x][i.y]);
         }
     }
 
@@ -156,7 +156,7 @@ Int2 imageGrayscale(Image img, Int2 n, Image res) {
 
 	for (i.y = 0; i.y < n.y; i.y++) {
 		for (i.x = 0; i.x < n.x; i.x++) {
-			res[i.y][i.x] = pixelGray(pixelGrayAverage(img[i.y][i.x]));
+			res[i.x][i.y] = pixelGray(pixelGrayAverage(img[i.x][i.y]));
 		}
 	}
 
@@ -224,7 +224,7 @@ Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {
 
     for (i.y = 0; i.y < n.y; i.y += 1) {
         for (i.x = 0; i.x < n.x; i.x += 1) {
-            res[i.y][i.x] = posterizePixel(img[i.y][i.x], interval);
+            res[i.x][i.y] = posterizePixel(img[i.x][i.y], interval);
         }
     }
 
