@@ -304,7 +304,46 @@ Int2 imageOrderedDithering(Image img, Int2 n, Image res) {
 	return n;
 }
 
+char toSixBitASCII(char c) {
+	char out = c;
+	if (c < 0x20 || c > 0x5F) {
+		if (c >= 'a' && c <= 'z') {
+			out -= 0x20;
+		}
+		else {
+			out = '?';
+		}
+	}
+	if (out >= 0x40) {
+		out -= 0x40;
+	}
+
+	return out == 0 ? '?' : out;
+}
+
+Pixel addCodeToPixel(char code, Pixel pixel) {
+	Pixel out;
+	out.red = (pixel.red & 0b111100) | (code >> 4);
+	out.green = (pixel.green & 0b111100) | ((code >> 2) & 0b11);
+	out.blue = (pixel.blue & 0b111100) | (code & 0b11);
+	return out;
+}
+
 Int2 imageSteganography(Image img, Int2 n, String s, Image res) {
+	int i;
+
+	for (i = 0; i < MAX_STRING && i < (n.x * n.y); i++) {
+		res[i % n.x][i / n.x] = addCodeToPixel(toSixBitASCII(s[i]), img[i % n.x][i / n.x]);
+
+		if (s[i] == '\0') {
+			break;
+		}
+	}
+
+	if (i == (n.x * n.y)) {
+		res[n.x-1][n.y-1] = addCodeToPixel('\0', img[n.x-1][n.y-1]);
+	}
+
 	return n;
 }
 
