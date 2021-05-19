@@ -308,6 +308,10 @@ static bool validateInt(String s, int max) {
 		return error("Esperava-se um inteiro valido");
 }
 
+static double power(double x) {
+	return x * x;
+}
+
 static void executarComando(String parts[], int nParts)
 {
 	char s[4 * MAX_STRING];

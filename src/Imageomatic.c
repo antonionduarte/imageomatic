@@ -179,7 +179,7 @@ Pixel calculateAverage(Image img, Int2 p, Int2 n, int level) {
 		}
 	}
 
-    return pixel(rgb[0]/numPixels, rgb[1]/numPixels, rgb[2]/numPixels);
+    return pixel(rgb[0] / numPixels, rgb[1] / numPixels, rgb[2] / numPixels);
 }
 
 Int2 imageBlur(Image img, Int2 n, int level, Image res) {
@@ -273,6 +273,11 @@ Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
 	return n;
 }
 
+Pixel ditherPixel(Pixel px, int value) {
+  double averageValue = pixelGrayAverage(px) / 4.0;
+  return averageValue > value ? white : black;
+}
+
 Int2 imageOrderedDithering(Image img, Int2 n, Image res) {
 	#define INDEX_SIDE  8
 
@@ -287,7 +292,16 @@ Int2 imageOrderedDithering(Image img, Int2 n, Image res) {
 					{63, 31, 55, 23, 61, 29, 53, 21}
 	};
 
-	return int2Error;
+  Int2 i;
+
+  for (i.x = 0; i.x < n.x; i.x++) {
+    for (i.y = 0; i.y < n.y; i.y++) {
+      int value = indexMatrix[i.x % INDEX_SIDE][i.y % INDEX_SIDE];
+			res[i.x][i.y] = ditherPixel(img[i.x][i.y], value);
+		}
+	}
+
+	return n;
 }
 
 Int2 imageSteganography(Image img, Int2 n, String s, Image res) {
