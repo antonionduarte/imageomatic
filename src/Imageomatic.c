@@ -263,7 +263,7 @@ Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
 	Int2 i, center = int2Half(n);
 
 	for (i.x = 0; i.x < n.x; i.x++) {
-		i.y = center.y + (int)(fun((center.x - i.x) / (double) scale) * scale);
+		i.y = (int) (center.y + fun((center.x - i.x) / (double) scale) * scale);
 
 		if (i.y >= 0 && i.y < n.y) {
 			res[i.x][i.y] = black;
