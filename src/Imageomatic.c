@@ -80,11 +80,11 @@ void initialization(void) {
 Int2 imageCopy(Image img, Int2 n, Image res) {
 	Int2 i;
 
-	for (i.y = 0; i.y < n.y; i.y++) {
-        for (i.x = 0; i.x < n.x; i.x++) {
-            res[i.x][i.y] = img[i.x][i.y];
-        }
-    }
+	for (i.x = 0; i.x < n.x; i.x++) {
+		for (i.y = 0; i.y < n.y; i.y++) {
+			res[i.x][i.y] = img[i.x][i.y];
+		}
+	}
 
 	return n;
 }
@@ -93,20 +93,20 @@ Int2 imagePaint(String color, Int2 n, Image res) {
     Pixel monoColor = searchColorsFile(color);
     Int2 i;
 
-    for (i.y = 0; i.y < n.y; i.y++) {
-        for (i.x = 0; i.x < n.x; i.x++) {
-            res[i.x][i.y] = monoColor;
-        }
-    }
+	for (i.x = 0; i.x < n.x; i.x++) {
+		for (i.y = 0; i.y < n.y; i.y++) {
+			res[i.x][i.y] = monoColor;
+		}
+	}
 
-    return n;
+	return n;
 }
 
 Int2 imageNegative(Image img, Int2 n, Image res) {
 	Int2 i;
 
-	for (i.y = 0; i.y < n.y; i.y++) {
-		for (i.x = 0; i.x < n.x; i.x++) {
+	for (i.x = 0; i.x < n.x; i.x++) {
+		for (i.y = 0; i.y < n.y; i.y++) {
 			res[i.x][i.y] = pixelNegative(img[i.x][i.y]);;
 		}
 	}
@@ -121,8 +121,8 @@ Pixel grayLevel(int distance) {
 Int2 imageDroplet(Int2 n, Image res) {
     Int2 i;
 
-    for (i.y = 0; i.y < n.y; i.y++) {
-        for (i.x = 0; i.x < n.x; i.x++) {
+    for (i.x = 0; i.x < n.x; i.x++) {
+        for (i.y = 0; i.y < n.y; i.y++) {
             res[i.x][i.y] = grayLevel(int2Distance(int2Half(n), i));
         }
     }
@@ -142,20 +142,20 @@ Pixel maskPixel(Pixel p1, Pixel p2) {
 Int2 imageMask(Image img1, Int2 n1, Image img2, Int2 n2, Image res) {
     Int2 i;
 
-    for (i.y = 0; i.y < n1.y; i.y++) {
-        for (i.x = 0; i.x < n1.x; i.x++) {
-            res[i.x][i.y] = maskPixel(img1[i.x][i.y], img2[i.x][i.y]);
-        }
-    }
+	for (i.x = 0; i.x < n1.x; i.x++) {
+		for (i.y = 0; i.y < n1.y; i.y++) {
+			res[i.x][i.y] = maskPixel(img1[i.x][i.y], img2[i.x][i.y]);
+		}
+	}
 
-    return n1;
+	return n1;
 }
 
 Int2 imageGrayscale(Image img, Int2 n, Image res) {
 	Int2 i;
 
-	for (i.y = 0; i.y < n.y; i.y++) {
-		for (i.x = 0; i.x < n.x; i.x++) {
+	for (i.x = 0; i.x < n.x; i.x++) {
+		for (i.y = 0; i.y < n.y; i.y++) {
 			res[i.x][i.y] = pixelGray(pixelGrayAverage(img[i.x][i.y]));
 		}
 	}
@@ -167,17 +167,17 @@ Pixel calculateAverage(Image img, Int2 p, Int2 n, int level) {
     Int2 i;
     int rgb[3] = {0, 0, 0}, numPixels = 0;
 
-    for (i.y = p.y - level; i.y <= p.y + level; i.y++) {
-        for (i.x = p.x - level; i.x <= p.x + level; i.x++) {
-            if (i.y >= 0 && i.y < n.y && i.x >= 0 && i.x < n.x) {
-                Pixel px = img[i.x][i.y];
-                rgb[0] += px.red;
-                rgb[1] += px.green;
-                rgb[2] += px.blue;
-                numPixels++;
-            }
-        }
-    }
+    for (i.x = p.x - level; i.x <= p.x + level; i.x++) {
+		for (i.y = p.y - level; i.y <= p.y + level; i.y++) {
+			if (i.x >= 0 && i.x < n.x && i.y >= 0 && i.y < n.y) {
+				Pixel px = img[i.x][i.y];
+				rgb[0] += px.red;
+				rgb[1] += px.green;
+				rgb[2] += px.blue;
+				numPixels++;
+			}
+		}
+	}
 
     return pixel(rgb[0]/numPixels, rgb[1]/numPixels, rgb[2]/numPixels);
 }
@@ -185,10 +185,10 @@ Pixel calculateAverage(Image img, Int2 p, Int2 n, int level) {
 Int2 imageBlur(Image img, Int2 n, int level, Image res) {
     Int2 i;
 
-    for (i.y = 0; i.y < n.y; i.y++) {
-        for (i.x = 0; i.x < n.x; i.x++) {
-            res[i.x][i.y] = calculateAverage(img, i, n, level);
-        }
+	for (i.x = 0; i.x < n.x; i.x++) {
+		for (i.y = 0; i.y < n.y; i.y++) {
+			res[i.x][i.y] = calculateAverage(img, i, n, level);
+		}
     }
 
     return n;
@@ -222,8 +222,8 @@ Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {
     Int2 i;
     int interval = (MAX_COLOR + 1) >> factor;
 
-    for (i.y = 0; i.y < n.y; i.y += 1) {
-        for (i.x = 0; i.x < n.x; i.x += 1) {
+    for (i.x = 0; i.x < n.x; i.x++) {
+        for (i.y = 0; i.y < n.y; i.y++) {
             res[i.x][i.y] = posterizePixel(img[i.x][i.y], interval);
         }
     }
@@ -234,13 +234,13 @@ Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {
 Int2 imageHalf(Image img, Int2 n, Image res) {
 	Int2 i;
 
-	for (i.y = 0; i.y < n.y; i.y += 2) {
-		for (i.x = 0; i.x < n.x; i.x += 2) {
-			res[i.y/2][i.x/2] = img[i.y][i.x];
+	for (i.x = 0; i.x < n.x; i.x += 2) {
+		for (i.y = 0; i.y < n.y; i.y += 2) {
+			res[i.x/2][i.y/2] = img[i.x][i.y];
 		}
 	}
 
-	return int2(n.x/2, n.y/2);
+	return int2Half(n);
 }
 
 void drawAxis(Int2 n, Image res) {
@@ -263,7 +263,11 @@ Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
 	Int2 i, center = int2Half(n);
 
 	for (i.x = 0; i.x < n.x; i.x++) {
-		res[i.x][center.y + (int)(fun((center.x - i.x) / (double) scale) * scale)] = black;
+		i.y = center.y + (int)(fun((center.x - i.x) / (double) scale) * scale);
+
+		if (i.y >= 0 && i.y < n.y) {
+			res[i.x][i.y] = black;
+		}
 	}
 
 	return n;
