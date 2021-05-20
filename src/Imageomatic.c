@@ -132,9 +132,9 @@ Int2 imageDroplet(Int2 n, Image res) {
 
 Pixel maskPixel(Pixel p1, Pixel p2) {
     Pixel px;
-    px.red = p1.red * (p2.red/(float)MAX_COLOR);
-    px.green = p1.green * (p2.green/(float)MAX_COLOR);
-    px.blue = p1.blue * (p2.blue/(float)MAX_COLOR);
+    px.red = p1.red * (p2.red / (double) MAX_COLOR);
+    px.green = p1.green * (p2.green / (double) MAX_COLOR);
+    px.blue = p1.blue * (p2.blue / (double) MAX_COLOR);
     return px;
 }
 
