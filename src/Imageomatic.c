@@ -330,19 +330,18 @@ Pixel addCodeToPixel(char code, Pixel pixel) {
 }
 
 Int2 imageSteganography(Image img, Int2 n, String s, Image res) {
+	imageCopy(img, n, res);
+
 	int i;
 
-	for (i = 0; i < MAX_STRING && i < (n.x * n.y); i++) {
+	for (i = 0; s[i] != '\0' && i < MAX_STRING && i < (n.x * n.y); i++) {
 		res[i % n.x][i / n.x] = addCodeToPixel(toSixBitASCII(s[i]), img[i % n.x][i / n.x]);
-
-		if (s[i] == '\0') {
-			break;
-		}
 	}
 
 	if (i == (n.x * n.y)) {
-		res[n.x-1][n.y-1] = addCodeToPixel('\0', img[n.x-1][n.y-1]);
+		i--;
 	}
+	res[i % n.x][i / n.x] = addCodeToPixel('\0', img[i % n.x][i / n.x]);
 
 	return n;
 }
