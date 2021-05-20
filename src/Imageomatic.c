@@ -323,9 +323,9 @@ char toSixBitASCII(char c) {
 
 Pixel addCodeToPixel(char code, Pixel pixel) {
 	Pixel out;
-	out.red = (pixel.red & 0b111100) | (code >> 4);
-	out.green = (pixel.green & 0b111100) | ((code >> 2) & 0b11);
-	out.blue = (pixel.blue & 0b111100) | (code & 0b11);
+	out.red = (pixel.red & 0b11111100) | (code >> 4);
+	out.green = (pixel.green & 0b11111100) | ((code >> 2) & 0b11);
+	out.blue = (pixel.blue & 0b11111100) | (code & 0b11);
 	return out;
 }
 
