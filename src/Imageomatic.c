@@ -378,6 +378,11 @@ Int2 imageOrderedDithering(Image img, Int2 n, Image res) {
 	return n;
 }
 
+/*
+ * Converts a 7 bit ASCII char into a 6 bit ASCII char based on 
+ * the AIS standard which can be found here: 
+ * https://en.wikipedia.org/wiki/Six-bit_character_code
+ */
 char toSixBitASCII(char c) {
 	char out = c;
 	if (c < 0x20 || c > 0x5F) {
@@ -395,6 +400,10 @@ char toSixBitASCII(char c) {
 	return out == 0 ? '?' : out;
 }
 
+/*
+ * Hides a 6 bit ASCII char into a pixels' RGB. Each color component hides
+ * 2 bits of the code in their 2 least significant bits, barely altering the original image.
+ */
 Pixel addCodeToPixel(char code, Pixel pixel) {
 	Pixel out;
 	out.red = (pixel.red & 0b11111100) | (code >> 4);
@@ -403,6 +412,10 @@ Pixel addCodeToPixel(char code, Pixel pixel) {
 	return out;
 }
 
+/*
+ * Hides a string of chars into an images' pixels using both of the previous
+ * auxiliary functions.
+ */
 Int2 imageSteganography(Image img, Int2 n, String s, Image res) {
 	imageCopy(img, n, res);
 
