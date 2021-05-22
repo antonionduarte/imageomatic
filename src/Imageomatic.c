@@ -11,6 +11,7 @@
 #include "Imageomatic.h"
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
 
 /*** Type Int2 ***/
 
@@ -18,14 +19,23 @@
 
 /*** Type Pixel ***/
 
+/*
+ * Inverts a specific color.
+ */
 Byte negative(Byte a) {
     return MAX_COLOR - a;
 }
 
+/*
+ * Inverts the color of a pixel.
+ */
 Pixel pixelNegative(Pixel p) {
     return pixel(negative(p.red), negative(p.green), negative(p.blue));
 }
 
+/*
+ * Converts an hexcode to an int.
+ */
 int hexToInt(char c) {
     if (c >= '0' && c <= '9') {
         return c - '0';
@@ -39,6 +49,9 @@ int hexToInt(char c) {
     return -1;
 }
 
+/*
+ * Converts an hex to a pixel.
+ */
 Pixel hexStringToPixel(String hex) {
     Byte rgb[3];
 
@@ -55,6 +68,9 @@ Pixel hexStringToPixel(String hex) {
     return pixel(rgb[0], rgb[1], rgb[2]);
 }
 
+/*
+ * Searches the colors.txt file for a given color name.
+ */
 Pixel searchColorsFile(String color) {
 	FILE *colorsFile = fopen(colorsFileName, "r");
 	String line, hex, name;
@@ -71,12 +87,15 @@ Pixel searchColorsFile(String color) {
     return hexStringToPixel(color);
 }
 
-/*** TYPE Image ***/
+/*** Type Image ***/
 
 void initialization(void) {
     
 }
 
+/*
+ * Copies the image received in "img" to "res".
+ */
 Int2 imageCopy(Image img, Int2 n, Image res) {
 	Int2 i;
 
@@ -89,6 +108,9 @@ Int2 imageCopy(Image img, Int2 n, Image res) {
 	return n;
 }
 
+/*
+ * Creates a monocromatic image with a specified color and size.
+ */
 Int2 imagePaint(String color, Int2 n, Image res) {
     Pixel monoColor = searchColorsFile(color);
     Int2 i;
@@ -102,6 +124,9 @@ Int2 imagePaint(String color, Int2 n, Image res) {
 	return n;
 }
 
+/*
+ * Converts an image to it's negative colors.
+ */
 Int2 imageNegative(Image img, Int2 n, Image res) {
 	Int2 i;
 
@@ -118,6 +143,10 @@ Pixel grayLevel(double distance) {
     return pixelGray(0.7 * MAX_COLOR + 0.3 * sin(distance/20.0) * MAX_COLOR);
 }
 
+/*
+ * Creates an image with gray levels simulating the visual result of a drop of water
+ * falling in the surface of a lake.
+ */
 Int2 imageDroplet(Int2 n, Image res) {
     Int2 i, middle = int2Half(n);
 
@@ -130,6 +159,9 @@ Int2 imageDroplet(Int2 n, Image res) {
     return n;
 }
 
+/*
+ * Calculates the resulting pixel by overlapping a a pixel over another pixel.
+ */
 Pixel maskPixel(Pixel p1, Pixel p2) {
     Pixel px;
     px.red = p1.red * (p2.red / (double) MAX_COLOR);
@@ -138,7 +170,9 @@ Pixel maskPixel(Pixel p1, Pixel p2) {
     return px;
 }
 
-// pre: int2Equals(n1, n2)
+/*
+ * Creates a new img (res) by overlapping "img2" over "img1"
+ */
 Int2 imageMask(Image img1, Int2 n1, Image img2, Int2 n2, Image res) {
     Int2 i;
 
@@ -151,6 +185,9 @@ Int2 imageMask(Image img1, Int2 n1, Image img2, Int2 n2, Image res) {
 	return n1;
 }
 
+/*
+ * Converts an image to it's grayscale format.
+ */
 Int2 imageGrayscale(Image img, Int2 n, Image res) {
 	Int2 i;
 
@@ -163,6 +200,9 @@ Int2 imageGrayscale(Image img, Int2 n, Image res) {
 	return n;
 }
 
+/*
+ * Calculates the average colors of a pixel in a matrix of pixels around it.
+ */
 Pixel calculateAverage(Image img, Int2 p, Int2 n, int level) {
     Int2 i;
     int rgb[3] = {0, 0, 0}, numPixels = 0;
@@ -182,6 +222,10 @@ Pixel calculateAverage(Image img, Int2 p, Int2 n, int level) {
     return pixel(rgb[0] / numPixels, rgb[1] / numPixels, rgb[2] / numPixels);
 }
 
+/*
+ * Creates a new image by blurring the image received in "img".
+ * Blurs the image a specific amount, given by the "level" argument.
+ */
 Int2 imageBlur(Image img, Int2 n, int level, Image res) {
     Int2 i;
 
@@ -194,6 +238,9 @@ Int2 imageBlur(Image img, Int2 n, int level, Image res) {
     return n;
 }
 
+/*
+ * Creates a new image by performing a 90 degree right rotation on "img".
+ */
 Int2 imageRotation90(Image img, Int2 n, Image res) {
   Int2 i;
   int max_y = n.y - 1;
@@ -209,15 +256,26 @@ Int2 imageRotation90(Image img, Int2 n, Image res) {
   return int2(n.y, n.x);
 }
 
+/*
+ * Finds the nearest available color in the reduced color space for the pixel.
+ * Finds the nearest multiple of interval, rounding down, starting from value.
+ */
 Byte nearestColor(int value, int interval) {
     return value - (value % interval);
 }
 
+/*
+ * Posterizes a pixel.
+ */
 Pixel posterizePixel(Pixel p, int interval) {
     return pixel(nearestColor(p.red, interval), 
             nearestColor(p.green, interval), nearestColor(p.blue, interval));
 }
 
+/*
+ * Posterizes an image by reducing by a specified factor, the amount of available
+ * colors.
+ */
 Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {
     Int2 i;
     int interval = (MAX_COLOR + 1) >> factor;
@@ -231,6 +289,9 @@ Int2 imagePosterize(Image img, Int2 n, int factor, Image res) {
     return n;
 }
 
+/*
+ * Creates a new image with half of the dimensions of the received one.
+ */
 Int2 imageHalf(Image img, Int2 n, Image res) {
 	Int2 i;
 
@@ -243,6 +304,9 @@ Int2 imageHalf(Image img, Int2 n, Image res) {
 	return int2Half(n);
 }
 
+/*
+ * Draws the (y = 0) and (x = 0) axis of the function.
+ */
 void drawAxis(Int2 n, Image res) {
 	imagePaint("white", n, res);
 
@@ -257,6 +321,10 @@ void drawAxis(Int2 n, Image res) {
 	}
 }
 
+/*
+ * Creates an image by plotting the graph of a function, with a specific scale
+ * and specific dimensions.
+ */
 Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
 	drawAxis(n, res);
 
@@ -264,6 +332,8 @@ Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
 
 	for (i.x = 0; i.x < n.x; i.x++) {
 		i.y = (int) (center.y + fun((center.x - i.x) / (double) scale) * scale);
+
+    printf("%d\n",(int) (center.y + fun((center.x - i.x) / (double) scale) * scale));
 
 		if (i.y >= 0 && i.y < n.y) {
 			res[i.x][i.y] = black;
@@ -273,10 +343,17 @@ Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res) {
 	return n;
 }
 
+/*
+ * Determines if a pixel "px" should be black or white according to a specified base value 
+ * obtained from indexMatrix.
+ */
 Pixel ditherPixel(Pixel px, int value) {
   return pixelGrayAverage(px) / 4.0 > value ? white : black;
 }
 
+/*
+ * Creates a new image by applying ordered dithering to an image.
+ */
 Int2 imageOrderedDithering(Image img, Int2 n, Image res) {
 	#define INDEX_SIDE  8
 
